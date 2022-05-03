@@ -17,14 +17,14 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/theCityView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="TextView" />
         </LinearLayout>
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/nameXYSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="name or x, y" />
@@ -33,5 +33,12 @@
             android:id="@+id/daysRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/editTextNumber2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number" />
     </LinearLayout>
 </FrameLayout>

@@ -2,12 +2,17 @@ package edu.sharif.ce.mas.weather;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,8 +20,10 @@ import android.widget.LinearLayout;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-
+    TextView cityNameTextView;
     LinearLayout cityLayout;
+    Switch nameXYSwitch;
+    boolean gettingCityName;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,7 +62,6 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        cityLayout = getView().findViewById(R.id.cityLayout);
 //        cityLayout.setOnClickListener(
 //        TODO : if clicked change TextView into appropriate edit text(es)
     }
@@ -65,5 +71,43 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    /**
+     * Called immediately after {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * has returned, but before any saved state has been restored in to the view.
+     * This gives subclasses a chance to initialize themselves once
+     * they know their view hierarchy has been completely created.  The fragment's
+     * view hierarchy is not however attached to its parent at this point.
+     *
+     * @param view               The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        cityLayout = getView().findViewById(R.id.cityLayout);
+        nameXYSwitch = getView().findViewById(R.id.nameXYSwitch);
+        gettingCityName = nameXYSwitch.isChecked();
+
+        cityLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!gettingCityName) {
+//            cityLayout.findViewById(R.id.theCityView).
+                    EditText cityNameEditText = new EditText(getContext());
+                    cityLayout.addView(cityNameEditText);
+                    // TODO : ...
+                } else {
+                    EditText cityXEditText = new EditText(getContext());
+//                    cityXEditText.setInputType();
+                    // TODO : ...
+                }
+            }
+        });
+
+
+
+        super.onViewCreated(view, savedInstanceState);
+
     }
 }
