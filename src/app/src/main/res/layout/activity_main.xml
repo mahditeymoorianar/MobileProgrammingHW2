@@ -20,14 +20,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/settings_icon_outlined" />
+            app:srcCompat="@drawable/home_icon" />
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/home_icon" />
+            app:srcCompat="@drawable/settings_icon_outlined" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView

@@ -4,14 +4,17 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Switch;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 /**
@@ -22,8 +25,8 @@ import android.widget.TextView;
 public class HomeFragment extends Fragment {
     TextView cityNameTextView;
     LinearLayout cityLayout;
-    Switch nameXYSwitch;
     boolean gettingCityName;
+    RadioGroup radioGroup;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,14 +66,32 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 //        cityLayout.setOnClickListener(
-//        TODO : if clicked change TextView into appropriate edit text(es)
+//        TODO : if clicked change TextView into appropriate edit text(s)
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_home, container
+                , false);
+        radioGroup = root.findViewById(R.id.radiogroup);
+        cityLayout = root.findViewById(R.id.cityLayout);
+        cityLayout.removeAllViews();
+        cityLayout.addView(inflater.inflate(R.layout.fragment_coordinates, cityLayout, false));
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    if (i == R.id.cityradiobutton) {
+                        cityLayout.removeAllViews();
+                        cityLayout.addView(inflater.inflate(R.layout.fragment_city, cityLayout, false));}
+                    else if (i == R.id.xyradiobutton){
+                        cityLayout.removeAllViews();
+                        cityLayout.addView(inflater.inflate(R.layout.fragment_coordinates, cityLayout, false));
+                    }
+            }
+        });
+        return root;
     }
 
     /**
@@ -85,9 +106,9 @@ public class HomeFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+
         cityLayout = getView().findViewById(R.id.cityLayout);
-        nameXYSwitch = getView().findViewById(R.id.nameXYSwitch);
-        gettingCityName = nameXYSwitch.isChecked();
 
         cityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
