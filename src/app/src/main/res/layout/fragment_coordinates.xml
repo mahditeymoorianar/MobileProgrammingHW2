@@ -22,7 +22,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.18"
         app:layout_constraintWidth_percent="0.8"
-        android:inputType="number"/>
+        android:inputType="number"
+        tools:context="CoordinatesFragment"/>
 
     <EditText
         android:id="@+id/yinput"
