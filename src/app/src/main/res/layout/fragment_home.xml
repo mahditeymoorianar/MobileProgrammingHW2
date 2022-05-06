@@ -33,12 +33,12 @@
                 android:text="City Name" />
         </RadioGroup>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cityLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="horizontal">
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/daysRecyclerView"
