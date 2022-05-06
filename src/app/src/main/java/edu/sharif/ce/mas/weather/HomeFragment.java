@@ -25,7 +25,7 @@ public class HomeFragment extends Fragment {
     ConstraintLayout cityLayout;
     RadioGroup radioGroup;
     Timer timer = new Timer();
-
+    public HomeFragment(){}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
