@@ -1,6 +1,7 @@
 package edu.sharif.ce.mas.weather;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
@@ -18,6 +19,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SettingsFragment.mPrefs = getPreferences(MODE_PRIVATE);
+        String viewMode = SettingsFragment.mPrefs.getString("DarkMode", "False");
+        if (viewMode.equals("True")){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
         setting = findViewById(R.id.settingButton);
         home = findViewById(R.id.homeButton);

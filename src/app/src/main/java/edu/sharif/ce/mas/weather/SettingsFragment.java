@@ -1,5 +1,6 @@
 package edu.sharif.ce.mas.weather;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 
 public class SettingsFragment extends Fragment {
 
+    public static SharedPreferences mPrefs;
+
     SwitchCompat darkMode;
 
     @Override
@@ -20,6 +23,7 @@ public class SettingsFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_settings, container
                 , false);
 
+
         darkMode = root.findViewById(R.id.darkModeSwitch);
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
@@ -27,9 +31,15 @@ public class SettingsFragment extends Fragment {
         }
         darkMode.setOnCheckedChangeListener((compoundButton, b) -> {
             if (darkMode.isChecked()){
+                SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                prefsEditor.putString("DarkMode", "True");
+                prefsEditor.apply();
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
             else{
+                SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                prefsEditor.putString("DarkMode", "False");
+                prefsEditor.apply();
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
