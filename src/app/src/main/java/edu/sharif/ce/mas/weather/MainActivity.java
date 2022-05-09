@@ -1,10 +1,13 @@
 package edu.sharif.ce.mas.weather;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         SettingsFragment.mPrefs = getPreferences(MODE_PRIVATE);
         String viewMode = SettingsFragment.mPrefs.getString("DarkMode", "False");

@@ -92,11 +92,7 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
         holder.temperatureTextView.setText(days.get(position).wind_speed);
     }
 
-    /**
-     * Returns the total number of items in the data set held by the adapter.
-     *
-     * @return The total number of items in this adapter.
-     */
+
     @Override
     public int getItemCount() {
         return days.size();
