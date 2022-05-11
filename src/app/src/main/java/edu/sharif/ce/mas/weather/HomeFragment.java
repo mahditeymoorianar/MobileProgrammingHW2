@@ -54,7 +54,9 @@ public class HomeFragment extends Fragment {
     Timer timer = new Timer();
 
     final String APP_ID = "608ce4a24c71ce732aeea8dcf11a59a9";
-    final String WEATHER_URL = "https://api.openweathermap.org/data/2.5/onecall";
+    final String WEATHER_URL_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall";
+    final String WEATHER_URL_LOCATION = "https://api.openweathermap.org/data/2.5/weather";
+    final String MAPBOX_URL = "https://api.mapbox.com/geocoding/v5";
     final long MIN_TIME = 5000;
     final float MIN_DISTANCE = 1000;
 
@@ -244,16 +246,16 @@ public class HomeFragment extends Fragment {
         params.put("lat", x);
         params.put("lon", y);
         params.put("appid", APP_ID);
-        sendRequestToNetwork(params);
+        sendRequestToNetwork(WEATHER_URL_ONE_CALL ,params);
 
     }
 
-    private void sendRequestToNetwork(RequestParams params) {
+    private void sendRequestToNetwork(String API_URL, RequestParams params) {
 
 
 
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(WEATHER_URL, params, new JsonHttpResponseHandler(){
+        client.get(API_URL, params, new JsonHttpResponseHandler(){
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -261,13 +263,26 @@ public class HomeFragment extends Fragment {
                 System.out.println("Data received successfully");
                 System.out.println(response.toString());
 
-                try {
-                    for (int i = 0; i <= 6; i++) {
-                        Day.fromJson(response.getJSONArray("daily").getJSONObject(i));
+
+                if (API_URL.equals(WEATHER_URL_ONE_CALL)) {
+                    try {
+                        for (int i = 0; i <= 6; i++) {
+                            Day.fromJson(response.getJSONArray("daily").getJSONObject(i));
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                        String lon = String.valueOf(response.getJSONObject("coord").getDouble("lon"));
+                        String lat = String.valueOf(response.getJSONObject("coord").getDouble("lat"));
+                        requestData(lat, lon);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
 
                 // updating items in recyclerView
@@ -285,10 +300,16 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void getCoordinatesFromName(String name) {
+    public void getCoordinatesFromName(String cityName) {
 
-        Intent newIntent = new Intent(getActivity(), CityFinderActivity.class);
-        startActivity(newIntent);
+//        Intent newIntent = new Intent(getActivity(), CityFinderActivity.class);
+//        startActivity(newIntent);
+
+        RequestParams params = new RequestParams();
+        params.put("q", cityName);
+        params.put("appid", APP_ID);
+        sendRequestToNetwork(WEATHER_URL_LOCATION, params);
+
     }
 
 
