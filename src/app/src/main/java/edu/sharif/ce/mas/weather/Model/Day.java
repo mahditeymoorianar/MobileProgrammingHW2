@@ -14,6 +14,7 @@ public class Day {
     public String temperature_feels_like;
     public String wind_speed;
     public String weatherIcon;
+    public JSONObject mJsonObject;
 
     public int weatherCondition;
 

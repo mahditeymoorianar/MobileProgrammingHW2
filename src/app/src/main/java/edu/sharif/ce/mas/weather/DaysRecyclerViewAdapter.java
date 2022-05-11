@@ -1,6 +1,7 @@
 package edu.sharif.ce.mas.weather;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,11 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
     private ArrayList<Day> days;
     private LayoutInflater inflater;
 
+    private Context mContext;
+
     public DaysRecyclerViewAdapter(Context context, ArrayList<Day> days){
+
+        this.mContext = context;
         this.days = days;
         this.inflater = LayoutInflater.from(context);
     }
@@ -87,9 +92,29 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
     @Override
     public void onBindViewHolder(@NonNull DaysRecyclerViewAdapter.ViewHolder holder, int position) {
 //        holder.subjectItemTextView.setText(subjects.get(position));
-        holder.temperatureTextView.setText(days.get(position).temperature);
-        holder.temperatureTextView.setText(days.get(position).temperature_feels_like);
-        holder.temperatureTextView.setText(days.get(position).wind_speed);
+
+        Day currentDay = days.get(position);
+
+        holder.temperatureTextView.setText(currentDay.temperature);
+        holder.temperatureTextView.setText(currentDay.temperature_feels_like);
+        holder.temperatureTextView.setText(currentDay.wind_speed);
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                System.out.println(currentDay.toString());
+
+                Intent detailsActivityIntent = new Intent(mContext, DetailsActivity.class);
+                detailsActivityIntent.putExtra("dayIndex", days.indexOf(currentDay));
+                mContext.startActivity(detailsActivityIntent);
+
+
+
+            }
+        });
     }
 
 
