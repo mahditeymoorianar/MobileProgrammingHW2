@@ -14,7 +14,6 @@ public class Day {
     public String temperature_feels_like;
     public String wind_speed;
     public String weatherIcon;
-    public JSONObject mJsonObject;
 
     public int weatherCondition;
 
@@ -76,6 +75,35 @@ public class Day {
         }
 
         return null;
+    }
+
+
+    public String getTemperature() {
+        return temperature + "°C";
+    }
+
+    public String getNightTemp() {
+        return nightTemp + "°C";
+    }
+
+    public String getEveningTemp() {
+        return eveningTemp + "°C";
+    }
+
+    public String getMorningTemp() {
+        return morningTemp + "°C";
+    }
+
+    public String getTemperature_feels_like() {
+        return temperature_feels_like + "°C";
+    }
+
+    public String getWind_speed() {
+        return wind_speed;
+    }
+
+    public String getWeatherIcon() {
+        return weatherIcon;
     }
 
 

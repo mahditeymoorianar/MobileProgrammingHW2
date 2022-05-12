@@ -266,6 +266,7 @@ public class HomeFragment extends Fragment {
 
                 if (API_URL.equals(WEATHER_URL_ONE_CALL)) {
                     try {
+                        Day.days.clear();
                         for (int i = 0; i <= 6; i++) {
                             Day.fromJson(response.getJSONArray("daily").getJSONObject(i));
                         }
@@ -287,7 +288,6 @@ public class HomeFragment extends Fragment {
 
                 }
 
-                // updating items in recyclerView
 
 
             }
@@ -303,9 +303,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void getCoordinatesFromName(String cityName) {
-
-//        Intent newIntent = new Intent(getActivity(), CityFinderActivity.class);
-//        startActivity(newIntent);
 
         RequestParams params = new RequestParams();
         params.put("q", cityName);
