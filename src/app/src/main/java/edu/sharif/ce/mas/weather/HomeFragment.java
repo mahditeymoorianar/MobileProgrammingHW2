@@ -239,9 +239,6 @@ public class HomeFragment extends Fragment {
 
     public void requestData(String x, String y) {
 
-        System.out.println(x);
-        System.out.println(y);
-
         RequestParams params = new RequestParams();
         params.put("lat", x);
         params.put("lon", y);
@@ -259,10 +256,6 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-
-                System.out.println("Data received successfully");
-                System.out.println(response.toString());
-
 
                 if (API_URL.equals(WEATHER_URL_ONE_CALL)) {
                     try {
