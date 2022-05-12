@@ -118,6 +118,17 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
     }
 
 
+    public void updateDataSet() {
+
+
+        System.out.println(days.toString());
+        notifyDataSetChanged();
+
+    }
+
+
+
+
     @Override
     public int getItemCount() {
         return days.size();

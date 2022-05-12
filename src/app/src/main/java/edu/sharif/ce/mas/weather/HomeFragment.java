@@ -270,6 +270,8 @@ public class HomeFragment extends Fragment {
                             Day.fromJson(response.getJSONArray("daily").getJSONObject(i));
                         }
 
+                        recyclerViewAdapter.updateDataSet();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

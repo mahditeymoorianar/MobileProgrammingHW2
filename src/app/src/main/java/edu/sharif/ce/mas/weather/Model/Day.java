@@ -40,6 +40,8 @@ public class Day {
 
             dayItem.weatherIcon = setWeatherIcon(dayItem.weatherCondition);
 
+            days.add(dayItem);
+
             return dayItem;
 
 
@@ -76,33 +78,6 @@ public class Day {
         return null;
     }
 
-    public String getTemperature() {
-        return temperature + "°C";
-    }
-
-    public String getNightTemp() {
-        return nightTemp + "°C";
-    }
-
-    public String getEveningTemp() {
-        return eveningTemp + "°C";
-    }
-
-    public String getMorningTemp() {
-        return morningTemp + "°C";
-    }
-
-    public String getTemperature_feels_like() {
-        return temperature_feels_like + "°C";
-    }
-
-    public String getWind_speed() {
-        return wind_speed;
-    }
-
-    public String getWeatherIcon() {
-        return weatherIcon;
-    }
 
     public static ArrayList<Day> getDays() {
         return days;
