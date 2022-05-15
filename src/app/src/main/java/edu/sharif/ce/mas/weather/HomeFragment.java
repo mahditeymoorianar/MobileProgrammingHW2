@@ -114,12 +114,13 @@ public class HomeFragment extends Fragment {
         recyclerViewAdapter = new DaysRecyclerViewAdapter(getActivity(), Day.getDays());
         daysRecyclerView.setAdapter(recyclerViewAdapter);
         recyclerViewAdapter.notifyDataSetChanged();
-        radioGroup = root.findViewById(R.id.radiogroup);
+        radioGroup = root.findViewById(R.id.radioGroup);
         cityLayout = root.findViewById(R.id.cityLayout);
         radioGroup.check(0);
         radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.cityradiobutton) {
                 cityLayout.removeAllViews();
+                cityLayout.setForegroundGravity(Gravity.CENTER);
                 EditText cityInp = new EditText(getContext());
                 cityInp.setBackgroundResource(R.drawable.edit_text_bg);
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -128,7 +129,13 @@ public class HomeFragment extends Fragment {
                 cityInp.setLayoutParams(params);
                 cityInp.setHint("City Name");
                 cityInp.setGravity(Gravity.CENTER);
+                cityInp.setId(View.generateViewId());
                 cityLayout.addView(cityInp);
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(cityLayout);
+                constraintSet.connect(cityInp.getId(), ConstraintSet.TOP, cityLayout.getId(),
+                        ConstraintSet.TOP, 65);
+                constraintSet.applyTo(cityLayout);
                 cityInp.setOnKeyListener((view, i1, keyEvent) -> {
                     if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                         timer.cancel();
@@ -191,12 +198,12 @@ public class HomeFragment extends Fragment {
                 cityLayout.addView(yInp);
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(cityLayout);
-                constraintSet.connect(yInp.getId(), ConstraintSet.LEFT, xInp.getId(),
-                        ConstraintSet.RIGHT, 20);
-                constraintSet.connect(yInp.getId(), ConstraintSet.RIGHT, cityLayout.getId(),
-                        ConstraintSet.RIGHT, 10);
-                constraintSet.connect(xInp.getId(), ConstraintSet.LEFT, cityLayout.getId(),
-                        ConstraintSet.LEFT, 10);
+                constraintSet.connect(yInp.getId(), ConstraintSet.TOP, xInp.getId(),
+                        ConstraintSet.BOTTOM, 15);
+                constraintSet.connect(yInp.getId(), ConstraintSet.BOTTOM, cityLayout.getId(),
+                        ConstraintSet.BOTTOM, 5);
+                constraintSet.connect(xInp.getId(), ConstraintSet.TOP, cityLayout.getId(),
+                        ConstraintSet.TOP, 5);
                 constraintSet.applyTo(cityLayout);
                 xInp.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN && !yInp.getText().toString().equals("")) {

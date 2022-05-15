@@ -31,13 +31,16 @@ public class SettingsFragment extends Fragment {
         }
         darkMode.setOnCheckedChangeListener((compoundButton, b) -> {
             if (darkMode.isChecked()){
+                MainActivity.check = true;
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 prefsEditor.putString("DarkMode", "True");
                 prefsEditor.apply();
                 getActivity().setTheme(R.style.Theme_WeatherNight);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
             }
             else{
+                MainActivity.check = true;
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 prefsEditor.putString("DarkMode", "False");
                 prefsEditor.apply();

@@ -19,13 +19,14 @@ public class MainActivity extends AppCompatActivity {
     FragmentContainerView fragment;
     ImageButton setting;
     ImageButton home;
+    LinearLayout bar;
+    public static boolean check = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         SettingsFragment.mPrefs = getPreferences(MODE_PRIVATE);
         String viewMode = SettingsFragment.mPrefs.getString("DarkMode", "False");
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
+
+        bar = findViewById(R.id.linearLayout);
         setting = findViewById(R.id.settingButton);
         home = findViewById(R.id.homeButton);
         fragment = findViewById(R.id.fragmentContainerView);
@@ -50,8 +53,26 @@ public class MainActivity extends AppCompatActivity {
 
         scaleDownS.play(scaleDownXS).with(scaleDownYS);
         scaleDownS.start();
+        if (check){
+            bar.setBackgroundColor(getResources().getColor(R.color.other_light_grey));
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainerView, new SettingsFragment());
 
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
+                    setting.getLayoutParams();
+            layoutParams.weight = 3.0f;
+            setting.setLayoutParams(layoutParams);
+            layoutParams = (LinearLayout.LayoutParams)
+                    home.getLayoutParams();
+            layoutParams.weight = 1.0f;
+            home.setLayoutParams(layoutParams);
+
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+        }
         setting.setOnClickListener(view -> {
+            bar.setBackgroundColor(getResources().getColor(R.color.other_light_grey));
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, new SettingsFragment());
 
@@ -90,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
         home.setOnClickListener(view -> {
+            bar.setBackgroundColor(getResources().getColor(R.color.light_grey));
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, new HomeFragment());
 

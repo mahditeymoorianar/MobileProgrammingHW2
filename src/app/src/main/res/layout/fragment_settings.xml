@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".SettingsFragment"
     android:gravity="center"
-    android:background="@color/backGreen">
+    android:background="@color/other_light_grey">
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/darkModeSwitch"
@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         app:showText="true"
         android:thumb="@drawable/thumb"
-        app:track="@drawable/track"
         android:textOff=""
         android:textOn=""/>
 </LinearLayout>

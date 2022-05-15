@@ -15,24 +15,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:gravity="center"
-        android:background="@color/backGreen">
+        android:background="@color/light_grey">
 
         <ImageButton
             android:id="@+id/homeButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:background="@drawable/edit_text_bg"
-            android:backgroundTint="@color/green"
-            app:srcCompat="@drawable/home_icon" />
+            android:background="@drawable/home_icon_bg"
+            android:backgroundTint="@color/light_grey"
+            app:srcCompat="@drawable/home_icon"/>
 
         <ImageButton
             android:id="@+id/settingButton"
-            android:background="@drawable/edit_text_bg"
+            android:background="@drawable/setting_icon_bg"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:backgroundTint="@color/cyan"
+            android:backgroundTint="@color/other_light_grey"
             app:srcCompat="@drawable/settings_icon_outlined" />
     </LinearLayout>
 
