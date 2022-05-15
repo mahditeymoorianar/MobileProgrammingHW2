@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         SettingsFragment.mPrefs = getPreferences(MODE_PRIVATE);
         String viewMode = SettingsFragment.mPrefs.getString("DarkMode", "False");
         if (viewMode.equals("True")){

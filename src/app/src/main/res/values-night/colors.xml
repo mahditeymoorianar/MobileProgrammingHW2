@@ -7,11 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="cyan">#00FFFF</color>
     <color name="darkBlue">#00008B</color>
-    <color name="green">#90ee90</color>
-    <color name="greyGreen">#5E716A</color>
-    <color name="greyBlue">#6699cc</color>
-    <color name="backGreen">#A2E8DC</color>
-    
+    <color name="green">#284326</color>
+    <color name="cyan">#6699cc</color>
+    <color name="backGreen">#207567</color>
+
 </resources>

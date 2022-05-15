@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -20,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -32,6 +35,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -238,17 +242,24 @@ public class HomeFragment extends Fragment {
 
 
     public void requestData(String x, String y) {
-
-        RequestParams params = new RequestParams();
-        params.put("lat", x);
-        params.put("lon", y);
-        params.put("appid", APP_ID);
-        sendRequestToNetwork(WEATHER_URL_ONE_CALL ,params);
+        ConnectivityManager conMgr =  (ConnectivityManager) getActivity()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            Toast.makeText(getActivity(), "Network Error!",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+            RequestParams params = new RequestParams();
+            params.put("lat", x);
+            params.put("lon", y);
+            params.put("appid", APP_ID);
+            sendRequestToNetwork(WEATHER_URL_ONE_CALL ,params);
+        }
 
     }
 
     private void sendRequestToNetwork(String API_URL, RequestParams params) {
-
 
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -286,7 +297,8 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+                                  JSONObject errorResponse) {
 //                super.onFailure(statusCode, headers, throwable, errorResponse);
 
                 System.out.println("An error occured in receiving data");
@@ -297,10 +309,19 @@ public class HomeFragment extends Fragment {
 
     public void getCoordinatesFromName(String cityName) {
 
-        RequestParams params = new RequestParams();
-        params.put("q", cityName);
-        params.put("appid", APP_ID);
-        sendRequestToNetwork(WEATHER_URL_LOCATION, params);
+        ConnectivityManager conMgr =  (ConnectivityManager) getActivity()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+        if (netInfo == null){
+            Toast.makeText(getActivity(), "Network Error!",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+            RequestParams params = new RequestParams();
+            params.put("q", cityName);
+            params.put("appid", APP_ID);
+            sendRequestToNetwork(WEATHER_URL_LOCATION, params);
+        }
 
     }
 

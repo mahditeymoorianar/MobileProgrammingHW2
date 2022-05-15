@@ -34,12 +34,14 @@ public class SettingsFragment extends Fragment {
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 prefsEditor.putString("DarkMode", "True");
                 prefsEditor.apply();
+                getActivity().setTheme(R.style.Theme_WeatherNight);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
             else{
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 prefsEditor.putString("DarkMode", "False");
                 prefsEditor.apply();
+                getActivity().setTheme(R.style.Theme_Weather);
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
