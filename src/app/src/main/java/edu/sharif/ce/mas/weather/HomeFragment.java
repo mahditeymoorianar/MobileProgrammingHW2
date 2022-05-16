@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -22,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.InputType;
@@ -55,7 +57,7 @@ public class HomeFragment extends Fragment {
     RadioGroup radioGroup;
     RecyclerView daysRecyclerView;
     DaysRecyclerViewAdapter recyclerViewAdapter;
-    Timer timer = new Timer();
+    Handler handler = new Handler(Looper.getMainLooper());
 
     final String APP_ID = "608ce4a24c71ce732aeea8dcf11a59a9";
     final String WEATHER_URL_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall";
@@ -138,14 +140,12 @@ public class HomeFragment extends Fragment {
                 constraintSet.applyTo(cityLayout);
                 cityInp.setOnKeyListener((view, i1, keyEvent) -> {
                     if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                        timer.cancel();
-                        timer = new Timer();
+                        handler.removeCallbacksAndMessages(null);
                         if (i1 == KeyEvent.KEYCODE_ENTER) {
                             getCoordinatesFromName(cityInp.getText().toString());
                             return true;
                         }
-                        timer.schedule(new TimerTask() {
-                            @Override
+                        handler.postDelayed(new Runnable() {
                             public void run() {
                                 getCoordinatesFromName(cityInp.getText().toString());
                             }
@@ -166,10 +166,8 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        timer.cancel();
-                        timer = new Timer();
-                        timer.schedule(new TimerTask() {
-                            @Override
+                        handler.removeCallbacksAndMessages(null);
+                        handler.postDelayed(new Runnable() {
                             public void run() {
                                 getCoordinatesFromName(cityInp.getText().toString());
                             }
@@ -207,14 +205,12 @@ public class HomeFragment extends Fragment {
                 constraintSet.applyTo(cityLayout);
                 xInp.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN && !yInp.getText().toString().equals("")) {
-                        timer.cancel();
-                        timer = new Timer();
+                        handler.removeCallbacksAndMessages(null);
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(), yInp.getText().toString());
                             return true;
                         }
-                        timer.schedule(new TimerTask() {
-                            @Override
+                        handler.postDelayed(new Runnable() {
                             public void run() {
                                 requestData(xInp.getText().toString(), yInp.getText().toString());
                             }
@@ -225,18 +221,15 @@ public class HomeFragment extends Fragment {
                 yInp.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN &&
                             !xInp.getText().toString().equals("")) {
-                        timer.cancel();
-                        timer = new Timer();
+                        handler.removeCallbacksAndMessages(null);
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(),
                                     yInp.getText().toString());
                             return true;
                         }
-                        timer.schedule(new TimerTask() {
-                            @Override
+                        handler.postDelayed(new Runnable() {
                             public void run() {
-                                requestData(xInp.getText().toString(),
-                                        yInp.getText().toString());
+                                requestData(xInp.getText().toString(), yInp.getText().toString());
                             }
                         }, 5000);
                     }
@@ -261,7 +254,7 @@ public class HomeFragment extends Fragment {
             params.put("lat", x);
             params.put("lon", y);
             params.put("appid", APP_ID);
-            sendRequestToNetwork(WEATHER_URL_ONE_CALL ,params);
+            sendRequestToNetwork(WEATHER_URL_ONE_CALL, params);
         }
 
     }
