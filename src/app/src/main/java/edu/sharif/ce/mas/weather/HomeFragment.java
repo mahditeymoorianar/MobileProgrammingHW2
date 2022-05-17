@@ -141,7 +141,6 @@ public class HomeFragment extends Fragment {
                 cityInp.setGravity(Gravity.CENTER);
                 cityInp.setId(View.generateViewId());
                 cityLayout.addView(cityInp);
-                cityKey = cityInp.getText().toString();
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(cityLayout);
                 constraintSet.connect(cityInp.getId(), ConstraintSet.TOP, cityLayout.getId(),
@@ -149,7 +148,7 @@ public class HomeFragment extends Fragment {
                 constraintSet.applyTo(cityLayout);
                 cityInp.setOnKeyListener((view, i1, keyEvent) -> {
                     if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                        cityName = cityInp.getText().toString();
+                        cityKey = cityInp.getText().toString();
                         handler.removeCallbacksAndMessages(null);
                         if (i1 == KeyEvent.KEYCODE_ENTER) {
                             getCoordinatesFromName(cityInp.getText().toString());
@@ -176,7 +175,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        cityName = cityInp.getText().toString();
+                        cityKey = cityInp.getText().toString();
                         handler.removeCallbacksAndMessages(null);
                         handler.postDelayed(new Runnable() {
                             public void run() {
@@ -205,7 +204,6 @@ public class HomeFragment extends Fragment {
                 yInp.setInputType(InputType.TYPE_CLASS_NUMBER);
                 yInp.setGravity(Gravity.CENTER);
                 yInp.setId(View.generateViewId());
-                cityKey = xInp+","+yInp;
                 cityLayout.addView(yInp);
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(cityLayout);
@@ -220,6 +218,7 @@ public class HomeFragment extends Fragment {
                     if (event.getAction() == KeyEvent.ACTION_DOWN && !yInp.getText().toString().equals("")) {
                         handler.removeCallbacksAndMessages(null);
                         x = xInp.getText().toString();
+                        cityKey = xInp.getText().toString()+", "+yInp.getText().toString();
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(), yInp.getText().toString());
                             return true;
@@ -235,6 +234,7 @@ public class HomeFragment extends Fragment {
                 yInp.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN &&
                             !xInp.getText().toString().equals("")) {
+                        cityKey = xInp.getText().toString()+", "+yInp.getText().toString();
                         handler.removeCallbacksAndMessages(null);
                         y = yInp.getText().toString();
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -257,6 +257,7 @@ public class HomeFragment extends Fragment {
 
 
     public void requestData(String x, String y) {
+        //cityKey = x + ", " + y;
         ConnectivityManager conMgr =  (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
@@ -276,7 +277,6 @@ public class HomeFragment extends Fragment {
 
     private void sendRequestToNetwork(String API_URL, RequestParams params) {
 
-
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(API_URL, params, new JsonHttpResponseHandler(){
 
@@ -284,10 +284,11 @@ public class HomeFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                 if (API_URL.equals(WEATHER_URL_ONE_CALL)) {
+                    System.out.println(cityKey + "cccccccccccc");
                     try {
                         JSONArray jsonString = response.getJSONArray("daily");
-                        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-                        prefsEditor.putString(cityKey, "True");
+                        SharedPreferences.Editor prefsEditor = SettingsFragment.mPrefs.edit();
+                        prefsEditor.putString(cityKey, jsonString.toString());
                         prefsEditor.apply();
 
                         Day.days.clear();
@@ -309,9 +310,7 @@ public class HomeFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
-
             }
 
             @Override
@@ -319,61 +318,25 @@ public class HomeFragment extends Fragment {
                                   JSONObject errorResponse) {
 //                super.onFailure(statusCode, headers, throwable, errorResponse);
 
-                // Load data
-                SettingsFragment.mPrefs = getActivity().getPreferences(MODE_PRIVATE);
-                JSONArray jsonString = null;
-                try {
-                    jsonString = new JSONArray(SettingsFragment.mPrefs.getString(cityKey, "False"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    if (!jsonString.equals(new JSONArray("False")) && jsonString != null) {
-                        Day.days.clear();
-                        for (int i = 0; i <= 6; i++) {
-                            try {
-                                Day.fromJson(jsonString.getJSONObject(i));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } else {
-                        Toast.makeText(getActivity(), "Cannot find!",
-                                Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-                recyclerViewAdapter.updateDataSet();
-
-                System.out.println("An error occured in receiving data");
-                Toast.makeText(getActivity(), "Network Error!",
-                        Toast.LENGTH_LONG).show();
-
             }
         });
     }
 
     public void getCoordinatesFromName(String cityName) {
-
+        //cityKey = cityName;
         ConnectivityManager conMgr =  (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
             SettingsFragment.mPrefs = getActivity().getPreferences(MODE_PRIVATE);
-            JSONArray jsonString = null;
+            System.out.println(cityKey + "!!!!!!!!!!!!!");
+            String jsonCheck = SettingsFragment.mPrefs.getString(cityKey, "False");
+            Toast.makeText(getActivity(), "Network Error!",
+                    Toast.LENGTH_LONG).show();
             try {
-                jsonString = new JSONArray(SettingsFragment.mPrefs.getString(cityKey, "False"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                if (!jsonString.equals(new JSONArray("False")) && jsonString != null) {
-                    Day.days.clear();
+                Day.days.clear();
+                if (!jsonCheck.equals("False")) {
+                    JSONArray jsonString = new JSONArray(jsonCheck);
                     for (int i = 0; i <= 6; i++) {
                         try {
                             Day.fromJson(jsonString.getJSONObject(i));
@@ -381,20 +344,20 @@ public class HomeFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                } else {
+                    Toast.makeText(getActivity(), "Cashed Data!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
                     Toast.makeText(getActivity(), "Cannot find!",
                             Toast.LENGTH_LONG).show();
                 }
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
             recyclerViewAdapter.updateDataSet();
-
             System.out.println("An error occured in receiving data");
-            Toast.makeText(getActivity(), "Network Error!",
-                    Toast.LENGTH_LONG).show();
+
         }
         else {
             RequestParams params = new RequestParams();
@@ -402,9 +365,7 @@ public class HomeFragment extends Fragment {
             params.put("appid", APP_ID);
             sendRequestToNetwork(WEATHER_URL_LOCATION, params);
         }
-
     }
-
 
 //    @Override
 //    public void onResume() {
