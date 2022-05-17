@@ -220,18 +220,21 @@ public class HomeFragment extends Fragment {
                 xInp.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN && !yInp.getText().toString().equals("")) {
                         handler.removeCallbacksAndMessages(null);
-                        x = xInp.getText().toString();
                         cityKey = xInp.getText().toString() + "°" +", "+
                                 yInp.getText().toString() + "°";
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                            requestData(xInp.getText().toString(), yInp.getText().toString());
+                            x = xInp.getText().toString();
+                            y = yInp.getText().toString();
+                            requestData(xInp.getText().toString(), yInp.getText().toString(), false);
                             return true;
                         }
                         handler.postDelayed(new Runnable() {
                             public void run() {
                                 cityKey = xInp.getText().toString() + "°" +", "+
                                         yInp.getText().toString() + "°";
-                                requestData(xInp.getText().toString(), yInp.getText().toString());
+                                x = xInp.getText().toString();
+                                y = yInp.getText().toString();
+                                requestData(xInp.getText().toString(), yInp.getText().toString(), false);
                             }
                         }, 5000);
                     }
@@ -241,19 +244,22 @@ public class HomeFragment extends Fragment {
                     if (event.getAction() == KeyEvent.ACTION_DOWN &&
                             !xInp.getText().toString().equals("")) {
                         handler.removeCallbacksAndMessages(null);
-                        y = yInp.getText().toString();
                         cityKey = xInp.getText().toString() + "°" +", "+
                                 yInp.getText().toString() + "°";
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(),
-                                    yInp.getText().toString());
+                                    yInp.getText().toString(), false);
+                            x = xInp.getText().toString();
+                            y = yInp.getText().toString();
                             return true;
                         }
                         handler.postDelayed(new Runnable() {
                             public void run() {
                                 cityKey = xInp.getText().toString() + "°" +", "+
                                         yInp.getText().toString() + "°";
-                                requestData(xInp.getText().toString(), yInp.getText().toString());
+                                x = xInp.getText().toString();
+                                y = yInp.getText().toString();
+                                requestData(xInp.getText().toString(), yInp.getText().toString(), false);
                             }
                         }, 5000);
                     }
@@ -261,11 +267,148 @@ public class HomeFragment extends Fragment {
                 });
             }
         });
+        if (coOrd){
+            radioGroup.check(R.id.xyradiobutton);
+            cityLayout.removeAllViews();
+            EditText xInp = new EditText(getContext());
+            xInp.setBackgroundResource(R.drawable.edit_text_bg);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    300, ViewGroup.LayoutParams.WRAP_CONTENT);
+            xInp.setLayoutParams(params);
+            xInp.setHint("X");
+            xInp.setInputType(InputType.TYPE_CLASS_NUMBER);
+            xInp.setGravity(Gravity.CENTER);
+            xInp.setId(View.generateViewId());
+            cityLayout.addView(xInp);
+            EditText yInp = new EditText(getContext());
+            yInp.setBackgroundResource(R.drawable.edit_text_bg);
+            yInp.setLayoutParams(params);
+            yInp.setHint("Y");
+            yInp.setInputType(InputType.TYPE_CLASS_NUMBER);
+            yInp.setGravity(Gravity.CENTER);
+            yInp.setId(View.generateViewId());
+            cityLayout.addView(yInp);
+            yInp.setPadding(20, 20, 20, 20);
+            xInp.setPadding(20, 20, 20, 20);
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(cityLayout);
+            constraintSet.connect(yInp.getId(), ConstraintSet.TOP, xInp.getId(),
+                    ConstraintSet.BOTTOM, 15);
+            constraintSet.connect(yInp.getId(), ConstraintSet.BOTTOM, cityLayout.getId(),
+                    ConstraintSet.BOTTOM, 5);
+            constraintSet.connect(xInp.getId(), ConstraintSet.TOP, cityLayout.getId(),
+                    ConstraintSet.TOP, 5);
+            constraintSet.applyTo(cityLayout);
+            xInp.setText(x);
+            yInp.setText(y);
+            xInp.setOnKeyListener((v, keyCode, event) -> {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && !yInp.getText().toString().equals("")) {
+                    handler.removeCallbacksAndMessages(null);
+                    x = xInp.getText().toString();
+                    cityKey = xInp.getText().toString() + "°" +", "+
+                            yInp.getText().toString() + "°";
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        requestData(xInp.getText().toString(), yInp.getText().toString(), false);
+                        return true;
+                    }
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            cityKey = xInp.getText().toString() + "°" +", "+
+                                    yInp.getText().toString() + "°";
+                            requestData(xInp.getText().toString(), yInp.getText().toString(), false);
+                        }
+                    }, 5000);
+                }
+                return false;
+            });
+            yInp.setOnKeyListener((v, keyCode, event) -> {
+                if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                        !xInp.getText().toString().equals("")) {
+                    handler.removeCallbacksAndMessages(null);
+                    y = yInp.getText().toString();
+                    cityKey = xInp.getText().toString() + "°" +", "+
+                            yInp.getText().toString() + "°";
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        requestData(xInp.getText().toString(),
+                                yInp.getText().toString(), false);
+                        return true;
+                    }
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            cityKey = xInp.getText().toString() + "°" +", "+
+                                    yInp.getText().toString() + "°";
+                            requestData(xInp.getText().toString(), yInp.getText().toString(), false);
+                        }
+                    }, 5000);
+                }
+                return false;
+            });
+        }
+        else{
+            cityLayout.removeAllViews();
+            radioGroup.check(R.id.cityradiobutton);
+            cityLayout.setForegroundGravity(Gravity.CENTER);
+            EditText cityInp = new EditText(getContext());
+            cityInp.setBackgroundResource(R.drawable.edit_text_bg);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            cityInp.setLayoutParams(params);
+            cityInp.setHint("City Name");
+            cityInp.setPadding(25, 8, 25, 8);
+            cityInp.setGravity(Gravity.CENTER);
+            cityInp.setId(View.generateViewId());
+            cityLayout.addView(cityInp);
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(cityLayout);
+            constraintSet.connect(cityInp.getId(), ConstraintSet.TOP, cityLayout.getId(),
+                    ConstraintSet.TOP, 65);
+            constraintSet.applyTo(cityLayout);
+            cityInp.setOnKeyListener((view, i1, keyEvent) -> {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    cityKey = cityInp.getText().toString();
+                    handler.removeCallbacksAndMessages(null);
+                    if (i1 == KeyEvent.KEYCODE_ENTER) {
+                        getCoordinatesFromName(cityInp.getText().toString());
+                        return true;
+                    }
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            getCoordinatesFromName(cityInp.getText().toString());
+                        }
+                    }, 5000);
+                }
+                return false;
+            });
+            cityInp.setText(cityKey);
+            cityInp.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    cityKey = cityInp.getText().toString();
+                    handler.removeCallbacksAndMessages(null);
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            getCoordinatesFromName(cityInp.getText().toString());
+                        }
+                    }, 5000);
+                }
+            });
+        }
         return root;
     }
 
 
-    public void requestData(String x, String y) {
+    public void requestData(String x, String y, boolean check) {
         //cityKey = x + ", " + y;
         ConnectivityManager conMgr =  (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -273,6 +416,34 @@ public class HomeFragment extends Fragment {
         if (netInfo == null){
             Toast.makeText(getActivity(), "Network Error!",
                     Toast.LENGTH_LONG).show();
+            if (!check){
+                SettingsFragment.mPrefs = getActivity().getPreferences(MODE_PRIVATE);
+                String jsonCheck = SettingsFragment.mPrefs.getString(cityKey, "False");
+                try {
+                    Day.days.clear();
+                    if (!jsonCheck.equals("False")) {
+                        JSONArray jsonString = new JSONArray(jsonCheck);
+                        for (int i = 0; i <= 6; i++) {
+                            try {
+                                Day.fromJson(jsonString.getJSONObject(i));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Toast.makeText(getActivity(), "Cashed Data!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "Network Error! No Cashed Data Found",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                recyclerViewAdapter.updateDataSet();
+                System.out.println("An error occured in receiving data");
+            }
         }
         else {
             RequestParams params = new RequestParams();
@@ -314,7 +485,7 @@ public class HomeFragment extends Fragment {
                     try {
                         String lon = String.valueOf(response.getJSONObject("coord").getDouble("lon"));
                         String lat = String.valueOf(response.getJSONObject("coord").getDouble("lat"));
-                        requestData(lat, lon);
+                        requestData(lat, lon, true);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -338,7 +509,6 @@ public class HomeFragment extends Fragment {
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
             SettingsFragment.mPrefs = getActivity().getPreferences(MODE_PRIVATE);
-            System.out.println(cityKey + "!!!!!!!!!!!!!");
             String jsonCheck = SettingsFragment.mPrefs.getString(cityKey, "False");
             Toast.makeText(getActivity(), "Network Error!",
                     Toast.LENGTH_LONG).show();
@@ -357,7 +527,7 @@ public class HomeFragment extends Fragment {
                             Toast.LENGTH_LONG).show();
                 }
                 else {
-                    Toast.makeText(getActivity(), "Cannot find!",
+                    Toast.makeText(getActivity(), "Network Error! No Cashed Data Found",
                             Toast.LENGTH_LONG).show();
                 }
             }

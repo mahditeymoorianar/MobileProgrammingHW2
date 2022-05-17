@@ -51,9 +51,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
             else if (currentDay.weatherIcon.equals("broken_clouds")){
                 id = R.drawable.clouds;
-                //tempTextView.setTextColor(getResources().getColor(R.color.white));
-                //tempFeelsLikeTextView.setTextColor(getResources().getColor(R.color.white));
-            //    feelsLikeText.setTextColor(getResources().getColor(R.color.white));
             }
             else if (currentDay.weatherIcon.equals("few_clouds")
                     || currentDay.weatherIcon.equals("scattered_clouds") ){
@@ -76,7 +73,7 @@ public class DetailsActivity extends AppCompatActivity {
             tempTextView.setText(currentDay.temperature + "°");
             nightTempTextView.setText(currentDay.nightTemp + "°");
             tempFeelsLikeTextView.setText(currentDay.temperature_feels_like + "°");
-            windSpeedTextViewDetails.setText(currentDay.wind_speed + " KM / Hour");
+            windSpeedTextViewDetails.setText(currentDay.wind_speed + " KM/Hour");
             morningTempTextView.setText(currentDay.morningTemp + "°");
             eveningTempTextView.setText(currentDay.eveningTemp + "°");
 
