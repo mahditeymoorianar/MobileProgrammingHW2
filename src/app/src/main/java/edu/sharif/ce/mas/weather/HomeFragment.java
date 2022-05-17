@@ -180,7 +180,9 @@ public class HomeFragment extends Fragment {
                         handler.removeCallbacksAndMessages(null);
                         handler.postDelayed(new Runnable() {
                             public void run() {
-                                getCoordinatesFromName(cityInp.getText().toString());
+                                if (cityInp.getText().toString() != null){
+                                    getCoordinatesFromName(cityInp.getText().toString());
+                                }
                             }
                         }, 5000);
                     }
@@ -194,7 +196,8 @@ public class HomeFragment extends Fragment {
                         300, ViewGroup.LayoutParams.WRAP_CONTENT);
                 xInp.setLayoutParams(params);
                 xInp.setHint("X");
-                xInp.setInputType(InputType.TYPE_CLASS_NUMBER);
+                xInp.setInputType
+                        (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 xInp.setGravity(Gravity.CENTER);
                 xInp.setId(View.generateViewId());
                 cityLayout.addView(xInp);
@@ -202,7 +205,7 @@ public class HomeFragment extends Fragment {
                 yInp.setBackgroundResource(R.drawable.edit_text_bg);
                 yInp.setLayoutParams(params);
                 yInp.setHint("Y");
-                yInp.setInputType(InputType.TYPE_CLASS_NUMBER);
+                yInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 yInp.setGravity(Gravity.CENTER);
                 yInp.setId(View.generateViewId());
                 cityLayout.addView(yInp);
@@ -278,7 +281,7 @@ public class HomeFragment extends Fragment {
             if (x.equals("")){
                 xInp.setHint("X");
             }
-            xInp.setInputType(InputType.TYPE_CLASS_NUMBER);
+            xInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             xInp.setGravity(Gravity.CENTER);
             xInp.setId(View.generateViewId());
             cityLayout.addView(xInp);
@@ -288,7 +291,7 @@ public class HomeFragment extends Fragment {
             if (y.equals("")){
                 yInp.setHint("Y");
             }
-            yInp.setInputType(InputType.TYPE_CLASS_NUMBER);
+            yInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             yInp.setGravity(Gravity.CENTER);
             yInp.setId(View.generateViewId());
             cityLayout.addView(yInp);
