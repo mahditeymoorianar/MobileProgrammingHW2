@@ -24,7 +24,7 @@
             android:layout_weight="3"
             android:background="@drawable/home_icon_bg"
             android:backgroundTint="@color/light_grey"
-            app:srcCompat="@drawable/home_icon"/>
+            app:srcCompat="@drawable/home_icon_filled"/>
 
         <ImageButton
             android:id="@+id/settingButton"
@@ -33,7 +33,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/other_light_grey"
-            app:srcCompat="@drawable/settings_icon_outlined" />
+            app:srcCompat="@drawable/setting_icon" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView

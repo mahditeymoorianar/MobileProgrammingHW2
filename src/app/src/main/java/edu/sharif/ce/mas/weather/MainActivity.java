@@ -61,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
                     setting.getLayoutParams();
             layoutParams.weight = 3.0f;
+
+            setting.setImageResource(R.drawable.setting_icon_filled);
+            home.setImageResource(R.drawable.home_icon);
+
             setting.setLayoutParams(layoutParams);
             layoutParams = (LinearLayout.LayoutParams)
                     home.getLayoutParams();
@@ -75,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
             bar.setBackgroundColor(getResources().getColor(R.color.other_light_grey));
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, new SettingsFragment());
+
+            setting.setImageResource(R.drawable.setting_icon_filled);
+            home.setImageResource(R.drawable.home_icon);
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
                     setting.getLayoutParams();
@@ -114,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
             bar.setBackgroundColor(getResources().getColor(R.color.light_grey));
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainerView, new HomeFragment());
+
+            setting.setImageResource(R.drawable.setting_icon);
+            home.setImageResource(R.drawable.home_icon_filled);
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
                     setting.getLayoutParams();
