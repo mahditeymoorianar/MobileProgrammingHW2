@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -57,7 +58,7 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
 
         holder.temperatureTextView.setText(currentDay.getTemperature());
         holder.temperatureFeelsLikeTextView.setText(currentDay.getTemperature_feels_like());
-        holder.windSpeedTextView.setText(currentDay.getWind_speed());
+        holder.windSpeedTextView.setText(currentDay.getWind_speed() + " KM / Hour");
         int resId = mContext.getResources().getIdentifier(currentDay.weatherIcon,
                 "drawable", mContext.getPackageName());
         holder.weatherImageView.setImageResource(resId);

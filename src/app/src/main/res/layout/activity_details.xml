@@ -104,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/view_bg"
-        android:backgroundTint="@color/other_light_grey"
+        android:backgroundTint="@color/lightBlue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".45"

@@ -28,7 +28,8 @@ public class Day {
             dayItem.temperature = Integer.toString((int) Math.rint(temperatureTemp));
             temperatureTemp = jsonObject.getJSONObject("feels_like").getDouble("day") - 273.15;
             dayItem.temperature_feels_like = Integer.toString((int) Math.rint(temperatureTemp));
-            dayItem.wind_speed = Double.toString(jsonObject.getDouble("wind_speed"));
+            Long wind =  Math.round(jsonObject.getDouble("wind_speed") * 3.6 * 10) / 10;
+            dayItem.wind_speed = Long.toString(wind);
             dayItem.weatherCondition = jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
             temperatureTemp = jsonObject.getJSONObject("temp").getDouble("night") - 273.15;
             dayItem.nightTemp = Integer.toString((int) Math.rint(temperatureTemp));

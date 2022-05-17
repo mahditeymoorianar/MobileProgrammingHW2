@@ -226,6 +226,8 @@ public class HomeFragment extends Fragment {
                         }
                         handler.postDelayed(new Runnable() {
                             public void run() {
+                                cityKey = xInp.getText().toString() + "°" +", "+
+                                        yInp.getText().toString() + "°";
                                 requestData(xInp.getText().toString(), yInp.getText().toString());
                             }
                         }, 5000);
@@ -235,10 +237,10 @@ public class HomeFragment extends Fragment {
                 yInp.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN &&
                             !xInp.getText().toString().equals("")) {
-                        cityKey = xInp.getText().toString() + "°" +", "+
-                                yInp.getText().toString() + "°";
                         handler.removeCallbacksAndMessages(null);
                         y = yInp.getText().toString();
+                        cityKey = xInp.getText().toString() + "°" +", "+
+                                yInp.getText().toString() + "°";
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(),
                                     yInp.getText().toString());
@@ -246,6 +248,8 @@ public class HomeFragment extends Fragment {
                         }
                         handler.postDelayed(new Runnable() {
                             public void run() {
+                                cityKey = xInp.getText().toString() + "°" +", "+
+                                        yInp.getText().toString() + "°";
                                 requestData(xInp.getText().toString(), yInp.getText().toString());
                             }
                         }, 5000);
