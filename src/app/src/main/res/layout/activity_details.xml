@@ -22,8 +22,7 @@
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ImageContrastCheck">
+            app:layout_constraintTop_toTopOf="parent">
 
         </ImageView>
 
@@ -54,16 +53,14 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="200dp"
             android:fontFamily="monospace"
             android:text="Feels Like"
             android:textSize="17dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/weatherImageView"
             app:layout_constraintEnd_toEndOf="@+id/weatherImageView"
-            app:layout_constraintHorizontal_bias="0.668"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/weatherImageView"
-            app:layout_constraintVertical_bias="0.474" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/weatherImageView"
+            app:layout_constraintTop_toTopOf="@+id/weatherImageView" />
 
         <TextView
             android:id="@+id/tempFeelsLikeTextView"
@@ -74,10 +71,10 @@
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.13"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="@+id/weatherImageView"
-            app:layout_constraintVertical_bias="0.466" />
+            app:layout_constraintVertical_bias="0.48000002" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -99,11 +96,11 @@
             android:id="@+id/windSpeedTextViewDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="40 Km/Hour"
             android:fontFamily="monospace"
+            android:text="40 Km/Hour"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.18"
             app:layout_constraintStart_toEndOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -158,8 +155,8 @@
 
         <TextView
             android:id="@+id/textView11"
-            android:layout_width="43dp"
-            android:layout_height="16dp"
+            android:layout_width="44dp"
+            android:layout_height="28dp"
             android:text="Night"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

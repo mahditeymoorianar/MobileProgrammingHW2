@@ -39,13 +39,13 @@ public class DetailsActivity extends AppCompatActivity {
 
             Day currentDay = Day.days.get(dayIndex);
 
-            //int resId = getResources().getIdentifier(currentDay.weatherIcon,
-                    //"drawable", getPackageName());
+            //int resId = getResources().getIdentifier("rainy",
+                //    "drawable", getPackageName());
             //weatherIconImageView.setImageResource(resId);
             tempTextView.setText(currentDay.temperature + "°");
             nightTempTextView.setText(currentDay.nightTemp + "°");
             tempFeelsLikeTextView.setText(currentDay.temperature_feels_like + "°");
-            windSpeedTextViewDetails.setText(currentDay.wind_speed + "KM / Hour");
+            windSpeedTextViewDetails.setText(currentDay.wind_speed + " KM / Hour");
             morningTempTextView.setText(currentDay.morningTemp + "°");
             eveningTempTextView.setText(currentDay.eveningTemp + "°");
 

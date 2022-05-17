@@ -65,11 +65,13 @@ public class HomeFragment extends Fragment {
     final String MAPBOX_URL = "https://api.mapbox.com/geocoding/v5";
     final long MIN_TIME = 5000;
     final float MIN_DISTANCE = 1000;
-
-
     final int REQUEST_CODE = 101;
 
-
+    static boolean coOrd = true;
+    static String x = "";
+    static String y = "";
+    static String cityName = "";
+    static boolean changed = false;
     String Location_Provider = LocationManager.GPS_PROVIDER;
 
 
@@ -118,9 +120,9 @@ public class HomeFragment extends Fragment {
         recyclerViewAdapter.notifyDataSetChanged();
         radioGroup = root.findViewById(R.id.radioGroup);
         cityLayout = root.findViewById(R.id.cityLayout);
-        radioGroup.check(0);
         radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.cityradiobutton) {
+                coOrd = false;
                 cityLayout.removeAllViews();
                 cityLayout.setForegroundGravity(Gravity.CENTER);
                 EditText cityInp = new EditText(getContext());
@@ -140,6 +142,7 @@ public class HomeFragment extends Fragment {
                 constraintSet.applyTo(cityLayout);
                 cityInp.setOnKeyListener((view, i1, keyEvent) -> {
                     if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                        cityName = cityInp.getText().toString();
                         handler.removeCallbacksAndMessages(null);
                         if (i1 == KeyEvent.KEYCODE_ENTER) {
                             getCoordinatesFromName(cityInp.getText().toString());
@@ -166,6 +169,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void afterTextChanged(Editable editable) {
+                        cityName = cityInp.getText().toString();
                         handler.removeCallbacksAndMessages(null);
                         handler.postDelayed(new Runnable() {
                             public void run() {
@@ -175,6 +179,7 @@ public class HomeFragment extends Fragment {
                     }
                 });
             } else if (i == R.id.xyradiobutton) {
+                coOrd = true;
                 cityLayout.removeAllViews();
                 EditText xInp = new EditText(getContext());
                 xInp.setBackgroundResource(R.drawable.edit_text_bg);
@@ -206,6 +211,7 @@ public class HomeFragment extends Fragment {
                 xInp.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN && !yInp.getText().toString().equals("")) {
                         handler.removeCallbacksAndMessages(null);
+                        x = xInp.getText().toString();
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(), yInp.getText().toString());
                             return true;
@@ -222,6 +228,7 @@ public class HomeFragment extends Fragment {
                     if (event.getAction() == KeyEvent.ACTION_DOWN &&
                             !xInp.getText().toString().equals("")) {
                         handler.removeCallbacksAndMessages(null);
+                        y = yInp.getText().toString();
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(),
                                     yInp.getText().toString());

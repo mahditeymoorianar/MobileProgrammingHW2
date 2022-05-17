@@ -58,7 +58,8 @@ public class DaysRecyclerViewAdapter extends RecyclerView.Adapter<DaysRecyclerVi
         holder.temperatureTextView.setText(currentDay.getTemperature());
         holder.temperatureFeelsLikeTextView.setText(currentDay.getTemperature_feels_like());
         holder.windSpeedTextView.setText(currentDay.getWind_speed());
-        int resId = mContext.getResources().getIdentifier(currentDay.weatherIcon, "drawable", mContext.getPackageName());
+        int resId = mContext.getResources().getIdentifier(currentDay.weatherIcon,
+                "drawable", mContext.getPackageName());
         holder.weatherImageView.setImageResource(resId);
 
 

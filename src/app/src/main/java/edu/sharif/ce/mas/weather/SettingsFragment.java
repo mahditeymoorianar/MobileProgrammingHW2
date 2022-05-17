@@ -31,6 +31,7 @@ public class SettingsFragment extends Fragment {
         }
         darkMode.setOnCheckedChangeListener((compoundButton, b) -> {
             if (darkMode.isChecked()){
+                HomeFragment.changed = true;
                 MainActivity.check = true;
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 prefsEditor.putString("DarkMode", "True");
@@ -40,6 +41,7 @@ public class SettingsFragment extends Fragment {
 
             }
             else{
+                HomeFragment.changed = true;
                 MainActivity.check = true;
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 prefsEditor.putString("DarkMode", "False");
