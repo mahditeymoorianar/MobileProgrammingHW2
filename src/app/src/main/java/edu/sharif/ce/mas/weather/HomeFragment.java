@@ -138,6 +138,7 @@ public class HomeFragment extends Fragment {
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
                 cityInp.setLayoutParams(params);
                 cityInp.setHint("City Name");
+                cityInp.setPadding(25, 8, 25, 8);
                 cityInp.setGravity(Gravity.CENTER);
                 cityInp.setId(View.generateViewId());
                 cityLayout.addView(cityInp);
@@ -205,6 +206,8 @@ public class HomeFragment extends Fragment {
                 yInp.setGravity(Gravity.CENTER);
                 yInp.setId(View.generateViewId());
                 cityLayout.addView(yInp);
+                yInp.setPadding(20, 20, 20, 20);
+                xInp.setPadding(20, 20, 20, 20);
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(cityLayout);
                 constraintSet.connect(yInp.getId(), ConstraintSet.TOP, xInp.getId(),
