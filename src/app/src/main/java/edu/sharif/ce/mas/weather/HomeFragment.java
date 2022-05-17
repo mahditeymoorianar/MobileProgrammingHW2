@@ -275,7 +275,9 @@ public class HomeFragment extends Fragment {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                     300, ViewGroup.LayoutParams.WRAP_CONTENT);
             xInp.setLayoutParams(params);
-            xInp.setHint("X");
+            if (x.equals("")){
+                xInp.setHint("X");
+            }
             xInp.setInputType(InputType.TYPE_CLASS_NUMBER);
             xInp.setGravity(Gravity.CENTER);
             xInp.setId(View.generateViewId());
@@ -283,7 +285,9 @@ public class HomeFragment extends Fragment {
             EditText yInp = new EditText(getContext());
             yInp.setBackgroundResource(R.drawable.edit_text_bg);
             yInp.setLayoutParams(params);
-            yInp.setHint("Y");
+            if (y.equals("")){
+                yInp.setHint("Y");
+            }
             yInp.setInputType(InputType.TYPE_CLASS_NUMBER);
             yInp.setGravity(Gravity.CENTER);
             yInp.setId(View.generateViewId());
@@ -351,8 +355,8 @@ public class HomeFragment extends Fragment {
             });
         }
         else{
-            cityLayout.removeAllViews();
             radioGroup.check(R.id.cityradiobutton);
+            cityLayout.removeAllViews();
             cityLayout.setForegroundGravity(Gravity.CENTER);
             EditText cityInp = new EditText(getContext());
             cityInp.setBackgroundResource(R.drawable.edit_text_bg);
@@ -360,7 +364,10 @@ public class HomeFragment extends Fragment {
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             cityInp.setLayoutParams(params);
-            cityInp.setHint("City Name");
+            System.out.println(cityKey+"!!!!!!!!!!!!!!!!!!!!!!!!!");
+            if (cityKey.equals("")){
+                cityInp.setHint("City Name");
+            }
             cityInp.setPadding(25, 8, 25, 8);
             cityInp.setGravity(Gravity.CENTER);
             cityInp.setId(View.generateViewId());
@@ -370,6 +377,7 @@ public class HomeFragment extends Fragment {
             constraintSet.connect(cityInp.getId(), ConstraintSet.TOP, cityLayout.getId(),
                     ConstraintSet.TOP, 65);
             constraintSet.applyTo(cityLayout);
+            cityInp.setText(cityKey);
             cityInp.setOnKeyListener((view, i1, keyEvent) -> {
                 if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
                     cityKey = cityInp.getText().toString();
@@ -386,7 +394,6 @@ public class HomeFragment extends Fragment {
                 }
                 return false;
             });
-            cityInp.setText(cityKey);
             cityInp.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -509,7 +516,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void getCoordinatesFromName(String cityName) {
-        //cityKey = cityName;
         ConnectivityManager conMgr =  (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
