@@ -305,6 +305,7 @@ public class HomeFragment extends Fragment {
                 if (event.getAction() == KeyEvent.ACTION_DOWN && !yInp.getText().toString().equals("")) {
                     handler.removeCallbacksAndMessages(null);
                     x = xInp.getText().toString();
+                    y = yInp.getText().toString();
                     cityKey = xInp.getText().toString() + "°" +", "+
                             yInp.getText().toString() + "°";
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -313,6 +314,8 @@ public class HomeFragment extends Fragment {
                     }
                     handler.postDelayed(new Runnable() {
                         public void run() {
+                            x = xInp.getText().toString();
+                            y = yInp.getText().toString();
                             cityKey = xInp.getText().toString() + "°" +", "+
                                     yInp.getText().toString() + "°";
                             requestData(xInp.getText().toString(), yInp.getText().toString(), false);
@@ -325,9 +328,10 @@ public class HomeFragment extends Fragment {
                 if (event.getAction() == KeyEvent.ACTION_DOWN &&
                         !xInp.getText().toString().equals("")) {
                     handler.removeCallbacksAndMessages(null);
-                    y = yInp.getText().toString();
                     cityKey = xInp.getText().toString() + "°" +", "+
                             yInp.getText().toString() + "°";
+                    x = xInp.getText().toString();
+                    y = yInp.getText().toString();
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
                         requestData(xInp.getText().toString(),
                                 yInp.getText().toString(), false);
@@ -335,6 +339,8 @@ public class HomeFragment extends Fragment {
                     }
                     handler.postDelayed(new Runnable() {
                         public void run() {
+                            x = xInp.getText().toString();
+                            y = yInp.getText().toString();
                             cityKey = xInp.getText().toString() + "°" +", "+
                                     yInp.getText().toString() + "°";
                             requestData(xInp.getText().toString(), yInp.getText().toString(), false);
