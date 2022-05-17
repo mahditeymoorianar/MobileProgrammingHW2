@@ -1,8 +1,11 @@
 package edu.sharif.ce.mas.weather;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -43,6 +46,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,6 +62,8 @@ public class HomeFragment extends Fragment {
     RecyclerView daysRecyclerView;
     DaysRecyclerViewAdapter recyclerViewAdapter;
     Handler handler = new Handler(Looper.getMainLooper());
+    String cityKey;
+    public static SharedPreferences mPrefs;
 
     final String APP_ID = "608ce4a24c71ce732aeea8dcf11a59a9";
     final String WEATHER_URL_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall";
@@ -133,6 +139,7 @@ public class HomeFragment extends Fragment {
                 cityInp.setGravity(Gravity.CENTER);
                 cityInp.setId(View.generateViewId());
                 cityLayout.addView(cityInp);
+                cityKey = cityInp.getText().toString();
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(cityLayout);
                 constraintSet.connect(cityInp.getId(), ConstraintSet.TOP, cityLayout.getId(),
@@ -193,6 +200,7 @@ public class HomeFragment extends Fragment {
                 yInp.setInputType(InputType.TYPE_CLASS_NUMBER);
                 yInp.setGravity(Gravity.CENTER);
                 yInp.setId(View.generateViewId());
+                cityKey = xInp+","+yInp;
                 cityLayout.addView(yInp);
                 ConstraintSet constraintSet = new ConstraintSet();
                 constraintSet.clone(cityLayout);
@@ -270,9 +278,14 @@ public class HomeFragment extends Fragment {
 
                 if (API_URL.equals(WEATHER_URL_ONE_CALL)) {
                     try {
+                        JSONArray jsonString = response.getJSONArray("daily");
+                        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                        prefsEditor.putString(cityKey, "True");
+                        prefsEditor.apply();
+
                         Day.days.clear();
                         for (int i = 0; i <= 6; i++) {
-                            Day.fromJson(response.getJSONArray("daily").getJSONObject(i));
+                            Day.fromJson(jsonString.getJSONObject(i));
                         }
 
                         recyclerViewAdapter.updateDataSet();
@@ -292,8 +305,6 @@ public class HomeFragment extends Fragment {
 
                 }
 
-
-
             }
 
             @Override
@@ -301,7 +312,39 @@ public class HomeFragment extends Fragment {
                                   JSONObject errorResponse) {
 //                super.onFailure(statusCode, headers, throwable, errorResponse);
 
+                // Load data
+                SettingsFragment.mPrefs = getActivity().getPreferences(MODE_PRIVATE);
+                JSONArray jsonString = null;
+                try {
+                    jsonString = new JSONArray(SettingsFragment.mPrefs.getString(cityKey, "False"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if (!jsonString.equals(new JSONArray("False")) && jsonString != null) {
+                        Day.days.clear();
+                        for (int i = 0; i <= 6; i++) {
+                            try {
+                                Day.fromJson(jsonString.getJSONObject(i));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "Cannot find!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                recyclerViewAdapter.updateDataSet();
+
                 System.out.println("An error occured in receiving data");
+                Toast.makeText(getActivity(), "Network Error!",
+                        Toast.LENGTH_LONG).show();
 
             }
         });
@@ -313,6 +356,36 @@ public class HomeFragment extends Fragment {
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
+            SettingsFragment.mPrefs = getActivity().getPreferences(MODE_PRIVATE);
+            JSONArray jsonString = null;
+            try {
+                jsonString = new JSONArray(SettingsFragment.mPrefs.getString(cityKey, "False"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (!jsonString.equals(new JSONArray("False")) && jsonString != null) {
+                    Day.days.clear();
+                    for (int i = 0; i <= 6; i++) {
+                        try {
+                            Day.fromJson(jsonString.getJSONObject(i));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Cannot find!",
+                            Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            recyclerViewAdapter.updateDataSet();
+
+            System.out.println("An error occured in receiving data");
             Toast.makeText(getActivity(), "Network Error!",
                     Toast.LENGTH_LONG).show();
         }
