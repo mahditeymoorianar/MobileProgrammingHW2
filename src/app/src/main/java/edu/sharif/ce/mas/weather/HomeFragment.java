@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment {
     RecyclerView daysRecyclerView;
     DaysRecyclerViewAdapter recyclerViewAdapter;
     Handler handler = new Handler(Looper.getMainLooper());
-    String cityKey;
+    public static String cityKey;
     public static SharedPreferences mPrefs;
 
     final String APP_ID = "608ce4a24c71ce732aeea8dcf11a59a9";
@@ -218,7 +218,8 @@ public class HomeFragment extends Fragment {
                     if (event.getAction() == KeyEvent.ACTION_DOWN && !yInp.getText().toString().equals("")) {
                         handler.removeCallbacksAndMessages(null);
                         x = xInp.getText().toString();
-                        cityKey = xInp.getText().toString()+", "+yInp.getText().toString();
+                        cityKey = xInp.getText().toString() + "°" +", "+
+                                yInp.getText().toString() + "°";
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(), yInp.getText().toString());
                             return true;
@@ -234,7 +235,8 @@ public class HomeFragment extends Fragment {
                 yInp.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN &&
                             !xInp.getText().toString().equals("")) {
-                        cityKey = xInp.getText().toString()+", "+yInp.getText().toString();
+                        cityKey = xInp.getText().toString() + "°" +", "+
+                                yInp.getText().toString() + "°";
                         handler.removeCallbacksAndMessages(null);
                         y = yInp.getText().toString();
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitStart"
-            android:src="@drawable/sunny"
+            android:src="@drawable/clouds"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +46,25 @@
             app:layout_constraintVertical_bias="0.378" />
 
         <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="86dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="monospace"
+            android:text="Tehran"
+            android:textColor="@color/black"
+            android:textSize="43dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.096"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.055" />
+
+        <TextView
             android:id="@+id/textView2"
             android:layout_width="108dp"
             android:layout_height="44dp"
@@ -54,6 +73,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:fontFamily="monospace"
+            android:textColor="@color/black"
             android:text="Feels Like"
             android:textSize="17dp"
             app:layout_constraintBottom_toBottomOf="@+id/weatherImageView"
@@ -69,12 +89,13 @@
             android:fontFamily="monospace"
             android:text="30°"
             android:textSize="17dp"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.13"
+            app:layout_constraintHorizontal_bias="0.132"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="@+id/weatherImageView"
-            app:layout_constraintVertical_bias="0.48000002" />
+            app:layout_constraintVertical_bias="0.485" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

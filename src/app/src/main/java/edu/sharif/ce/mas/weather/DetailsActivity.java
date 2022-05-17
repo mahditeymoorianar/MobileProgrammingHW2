@@ -18,7 +18,8 @@ public class DetailsActivity extends AppCompatActivity {
     TextView windSpeedTextViewDetails;
     TextView morningTempTextView;
     TextView eveningTempTextView;
-
+    TextView feelsLikeText;
+    TextView name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class DetailsActivity extends AppCompatActivity {
         windSpeedTextViewDetails = findViewById(R.id.windSpeedTextViewDetails);
         morningTempTextView = findViewById(R.id.morningTempTextView);
         eveningTempTextView = findViewById(R.id.eveningTempTextView);
+        feelsLikeText = findViewById(R.id.textView2);
+        name = findViewById(R.id.name);
 
         Intent intent = getIntent();
         int dayIndex = intent.getIntExtra("dayIndex", -1);
@@ -39,9 +42,37 @@ public class DetailsActivity extends AppCompatActivity {
 
             Day currentDay = Day.days.get(dayIndex);
 
-            //int resId = getResources().getIdentifier("rainy",
-                //    "drawable", getPackageName());
-            //weatherIconImageView.setImageResource(resId);
+            int id = 0;
+            if (currentDay.weatherIcon.equals("mist")){
+                id = R.drawable.misty;
+                tempTextView.setTextColor(getResources().getColor(R.color.white));
+                tempFeelsLikeTextView.setTextColor(getResources().getColor(R.color.white));
+                feelsLikeText.setTextColor(getResources().getColor(R.color.white));
+            }
+            else if (currentDay.weatherIcon.equals("broken_clouds")){
+                id = R.drawable.clouds;
+                //tempTextView.setTextColor(getResources().getColor(R.color.white));
+                //tempFeelsLikeTextView.setTextColor(getResources().getColor(R.color.white));
+            //    feelsLikeText.setTextColor(getResources().getColor(R.color.white));
+            }
+            else if (currentDay.weatherIcon.equals("few_clouds")
+                    || currentDay.weatherIcon.equals("scattered_clouds") ){
+                id = R.drawable.few_clouds2;
+            }
+
+            else if (currentDay.weatherIcon.equals("clear_sky")){
+                id = R.drawable.sunny;
+            }
+            else if (currentDay.weatherIcon.equals("snow")){
+                id = R.drawable.snowy;
+            }
+            else if (currentDay.weatherIcon.equals("rain") ||
+                    currentDay.weatherIcon.equals("shower_rain")){
+                id = R.drawable.rainy;
+            }
+
+            name.setText(HomeFragment.cityKey);
+            weatherIconImageView.setImageResource(id);
             tempTextView.setText(currentDay.temperature + "°");
             nightTempTextView.setText(currentDay.nightTemp + "°");
             tempFeelsLikeTextView.setText(currentDay.temperature_feels_like + "°");
