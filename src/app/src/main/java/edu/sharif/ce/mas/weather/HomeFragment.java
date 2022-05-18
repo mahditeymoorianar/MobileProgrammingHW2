@@ -484,6 +484,7 @@ public class HomeFragment extends Fragment {
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
         if (netInfo == null){
+
             SettingsFragment.mPrefs = getActivity().getPreferences(MODE_PRIVATE);
             String jsonCheck = SettingsFragment.mPrefs.getString(cityKey, "False");
             Toast.makeText(getActivity(), "Network Error!",
@@ -492,6 +493,8 @@ public class HomeFragment extends Fragment {
                 requestData("", "", false, jsonCheck);
             }
             else {
+                Day.days.clear();
+                recyclerViewAdapter.updateDataSet();
                 Toast.makeText(getActivity(), "Network Error! No Cashed Data Found",
                         Toast.LENGTH_LONG).show();
             }
