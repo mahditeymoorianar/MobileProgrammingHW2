@@ -1,27 +1,15 @@
 package edu.sharif.ce.mas.weather;
 
 import static android.content.Context.MODE_PRIVATE;
-
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -50,9 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import cz.msebera.android.httpclient.Header;
 import edu.sharif.ce.mas.weather.Model.Day;
 
@@ -63,7 +47,6 @@ public class HomeFragment extends Fragment {
     DaysRecyclerViewAdapter recyclerViewAdapter;
     Handler handler = new Handler(Looper.getMainLooper());
     public static String cityKey;
-    public static SharedPreferences mPrefs;
 
     final String APP_ID = "608ce4a24c71ce732aeea8dcf11a59a9";
     final String WEATHER_URL_ONE_CALL = "https://api.openweathermap.org/data/2.5/onecall";
@@ -155,11 +138,7 @@ public class HomeFragment extends Fragment {
                             getCoordinatesFromName(cityInp.getText().toString());
                             return true;
                         }
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                getCoordinatesFromName(cityInp.getText().toString());
-                            }
-                        }, 5000);
+                        handler.postDelayed(() -> getCoordinatesFromName(cityInp.getText().toString()), 5000);
                     }
                     return false;
                 });
@@ -178,11 +157,9 @@ public class HomeFragment extends Fragment {
                     public void afterTextChanged(Editable editable) {
                         cityKey = cityInp.getText().toString();
                         handler.removeCallbacksAndMessages(null);
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                if (cityInp.getText().toString() != null){
-                                    getCoordinatesFromName(cityInp.getText().toString());
-                                }
+                        handler.postDelayed(() -> {
+                            if (cityInp.getText().toString() != null){
+                                getCoordinatesFromName(cityInp.getText().toString());
                             }
                         }, 5000);
                     }
@@ -195,7 +172,7 @@ public class HomeFragment extends Fragment {
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                         300, ViewGroup.LayoutParams.WRAP_CONTENT);
                 xInp.setLayoutParams(params);
-                xInp.setHint("X");
+                xInp.setHint("Longitude");
                 xInp.setInputType
                         (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 xInp.setGravity(Gravity.CENTER);
@@ -204,7 +181,7 @@ public class HomeFragment extends Fragment {
                 EditText yInp = new EditText(getContext());
                 yInp.setBackgroundResource(R.drawable.edit_text_bg);
                 yInp.setLayoutParams(params);
-                yInp.setHint("Y");
+                yInp.setHint("Latitude");
                 yInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                 yInp.setGravity(Gravity.CENTER);
                 yInp.setId(View.generateViewId());
@@ -228,17 +205,15 @@ public class HomeFragment extends Fragment {
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             x = xInp.getText().toString();
                             y = yInp.getText().toString();
-                            requestData(xInp.getText().toString(), yInp.getText().toString(), false);
+                            requestData(xInp.getText().toString(), yInp.getText().toString(), false, cityKey);
                             return true;
                         }
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                cityKey = xInp.getText().toString() + "°" +", "+
-                                        yInp.getText().toString() + "°";
-                                x = xInp.getText().toString();
-                                y = yInp.getText().toString();
-                                requestData(xInp.getText().toString(), yInp.getText().toString(), false);
-                            }
+                        handler.postDelayed(() -> {
+                            cityKey = xInp.getText().toString() + "°" +", "+
+                                    yInp.getText().toString() + "°";
+                            x = xInp.getText().toString();
+                            y = yInp.getText().toString();
+                            requestData(xInp.getText().toString(), yInp.getText().toString(), false, cityKey);
                         }, 5000);
                     }
                     return false;
@@ -251,19 +226,17 @@ public class HomeFragment extends Fragment {
                                 yInp.getText().toString() + "°";
                         if (keyCode == KeyEvent.KEYCODE_ENTER) {
                             requestData(xInp.getText().toString(),
-                                    yInp.getText().toString(), false);
+                                    yInp.getText().toString(), false, cityKey);
                             x = xInp.getText().toString();
                             y = yInp.getText().toString();
                             return true;
                         }
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                cityKey = xInp.getText().toString() + "°" +", "+
-                                        yInp.getText().toString() + "°";
-                                x = xInp.getText().toString();
-                                y = yInp.getText().toString();
-                                requestData(xInp.getText().toString(), yInp.getText().toString(), false);
-                            }
+                        handler.postDelayed(() -> {
+                            cityKey = xInp.getText().toString() + "°" +", "+
+                                    yInp.getText().toString() + "°";
+                            x = xInp.getText().toString();
+                            y = yInp.getText().toString();
+                            requestData(xInp.getText().toString(), yInp.getText().toString(), false, cityKey);
                         }, 5000);
                     }
                     return false;
@@ -278,9 +251,7 @@ public class HomeFragment extends Fragment {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                     300, ViewGroup.LayoutParams.WRAP_CONTENT);
             xInp.setLayoutParams(params);
-            if (x.equals("")){
-                xInp.setHint("X");
-            }
+            xInp.setHint("Longitude");
             xInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             xInp.setGravity(Gravity.CENTER);
             xInp.setId(View.generateViewId());
@@ -288,9 +259,7 @@ public class HomeFragment extends Fragment {
             EditText yInp = new EditText(getContext());
             yInp.setBackgroundResource(R.drawable.edit_text_bg);
             yInp.setLayoutParams(params);
-            if (y.equals("")){
-                yInp.setHint("Y");
-            }
+            yInp.setHint("Latitude");
             yInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             yInp.setGravity(Gravity.CENTER);
             yInp.setId(View.generateViewId());
@@ -316,17 +285,15 @@ public class HomeFragment extends Fragment {
                     cityKey = xInp.getText().toString() + "°" +", "+
                             yInp.getText().toString() + "°";
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                        requestData(xInp.getText().toString(), yInp.getText().toString(), false);
+                        requestData(xInp.getText().toString(), yInp.getText().toString(), false, cityKey);
                         return true;
                     }
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            x = xInp.getText().toString();
-                            y = yInp.getText().toString();
-                            cityKey = xInp.getText().toString() + "°" +", "+
-                                    yInp.getText().toString() + "°";
-                            requestData(xInp.getText().toString(), yInp.getText().toString(), false);
-                        }
+                    handler.postDelayed(() -> {
+                        x = xInp.getText().toString();
+                        y = yInp.getText().toString();
+                        cityKey = xInp.getText().toString() + "°" +", "+
+                                yInp.getText().toString() + "°";
+                        requestData(xInp.getText().toString(), yInp.getText().toString(), false, cityKey);
                     }, 5000);
                 }
                 return false;
@@ -341,17 +308,15 @@ public class HomeFragment extends Fragment {
                     y = yInp.getText().toString();
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
                         requestData(xInp.getText().toString(),
-                                yInp.getText().toString(), false);
+                                yInp.getText().toString(), false, cityKey);
                         return true;
                     }
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            x = xInp.getText().toString();
-                            y = yInp.getText().toString();
-                            cityKey = xInp.getText().toString() + "°" +", "+
-                                    yInp.getText().toString() + "°";
-                            requestData(xInp.getText().toString(), yInp.getText().toString(), false);
-                        }
+                    handler.postDelayed(() -> {
+                        x = xInp.getText().toString();
+                        y = yInp.getText().toString();
+                        cityKey = xInp.getText().toString() + "°" +", "+
+                                yInp.getText().toString() + "°";
+                        requestData(xInp.getText().toString(), yInp.getText().toString(), false, cityKey);
                     }, 5000);
                 }
                 return false;
@@ -368,9 +333,7 @@ public class HomeFragment extends Fragment {
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             cityInp.setLayoutParams(params);
             System.out.println(cityKey+"!!!!!!!!!!!!!!!!!!!!!!!!!");
-            if (cityKey.equals("")){
-                cityInp.setHint("City Name");
-            }
+            cityInp.setHint("City Name");
             cityInp.setPadding(25, 8, 25, 8);
             cityInp.setGravity(Gravity.CENTER);
             cityInp.setId(View.generateViewId());
@@ -389,11 +352,7 @@ public class HomeFragment extends Fragment {
                         getCoordinatesFromName(cityInp.getText().toString());
                         return true;
                     }
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            getCoordinatesFromName(cityInp.getText().toString());
-                        }
-                    }, 5000);
+                    handler.postDelayed(() -> getCoordinatesFromName(cityInp.getText().toString()), 5000);
                 }
                 return false;
             });
@@ -412,11 +371,7 @@ public class HomeFragment extends Fragment {
                 public void afterTextChanged(Editable editable) {
                     cityKey = cityInp.getText().toString();
                     handler.removeCallbacksAndMessages(null);
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            getCoordinatesFromName(cityInp.getText().toString());
-                        }
-                    }, 5000);
+                    handler.postDelayed(() -> getCoordinatesFromName(cityInp.getText().toString()), 5000);
                 }
             });
         }
@@ -424,8 +379,8 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void requestData(String x, String y, boolean check) {
-        //cityKey = x + ", " + y;
+    public void requestData(String x, String y, boolean check, String key) {
+
         ConnectivityManager conMgr =  (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
@@ -434,7 +389,7 @@ public class HomeFragment extends Fragment {
                     Toast.LENGTH_LONG).show();
             if (!check){
                 SettingsFragment.mPrefs = getActivity().getPreferences(MODE_PRIVATE);
-                String jsonCheck = SettingsFragment.mPrefs.getString(cityKey, "False");
+                String jsonCheck = SettingsFragment.mPrefs.getString(key, "False");
                 try {
                     Day.days.clear();
                     if (!jsonCheck.equals("False")) {
@@ -466,12 +421,12 @@ public class HomeFragment extends Fragment {
             params.put("lat", x);
             params.put("lon", y);
             params.put("appid", APP_ID);
-            sendRequestToNetwork(WEATHER_URL_ONE_CALL, params);
+            sendRequestToNetwork(WEATHER_URL_ONE_CALL, params, key);
         }
 
     }
 
-    private void sendRequestToNetwork(String API_URL, RequestParams params) {
+    private void sendRequestToNetwork(String API_URL, RequestParams params, String key) {
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(API_URL, params, new JsonHttpResponseHandler(){
@@ -484,7 +439,7 @@ public class HomeFragment extends Fragment {
                     try {
                         JSONArray jsonString = response.getJSONArray("daily");
                         SharedPreferences.Editor prefsEditor = SettingsFragment.mPrefs.edit();
-                        prefsEditor.putString(cityKey, jsonString.toString());
+                        prefsEditor.putString(key, jsonString.toString());
                         prefsEditor.apply();
 
                         Day.days.clear();
@@ -501,7 +456,12 @@ public class HomeFragment extends Fragment {
                     try {
                         String lon = String.valueOf(response.getJSONObject("coord").getDouble("lon"));
                         String lat = String.valueOf(response.getJSONObject("coord").getDouble("lat"));
-                        requestData(lat, lon, true);
+                        System.out.println(lon + lat + cityKey + "!!!!!!!!!");
+                        SharedPreferences.Editor prefsEditor = SettingsFragment.mPrefs.edit();
+                        prefsEditor.putString(cityKey, lon + "°" +", " + lat + "°");
+                        prefsEditor.apply();
+
+                        requestData(lat, lon, true, lon + "°" +", " + lat + "°");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -519,6 +479,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void getCoordinatesFromName(String cityName) {
+
         ConnectivityManager conMgr =  (ConnectivityManager) getActivity()
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
@@ -527,29 +488,13 @@ public class HomeFragment extends Fragment {
             String jsonCheck = SettingsFragment.mPrefs.getString(cityKey, "False");
             Toast.makeText(getActivity(), "Network Error!",
                     Toast.LENGTH_LONG).show();
-            try {
-                Day.days.clear();
-                if (!jsonCheck.equals("False")) {
-                    JSONArray jsonString = new JSONArray(jsonCheck);
-                    for (int i = 0; i <= 6; i++) {
-                        try {
-                            Day.fromJson(jsonString.getJSONObject(i));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    Toast.makeText(getActivity(), "Cashed Data!",
-                            Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(getActivity(), "Network Error! No Cashed Data Found",
-                            Toast.LENGTH_LONG).show();
-                }
+            if (!jsonCheck.equals("False")) {
+                requestData("", "", false, jsonCheck);
             }
-            catch (JSONException e) {
-                e.printStackTrace();
+            else {
+                Toast.makeText(getActivity(), "Network Error! No Cashed Data Found",
+                        Toast.LENGTH_LONG).show();
             }
-            recyclerViewAdapter.updateDataSet();
             System.out.println("An error occured in receiving data");
 
         }
@@ -557,7 +502,7 @@ public class HomeFragment extends Fragment {
             RequestParams params = new RequestParams();
             params.put("q", cityName);
             params.put("appid", APP_ID);
-            sendRequestToNetwork(WEATHER_URL_LOCATION, params);
+            sendRequestToNetwork(WEATHER_URL_LOCATION, params, cityKey);
         }
     }
 
