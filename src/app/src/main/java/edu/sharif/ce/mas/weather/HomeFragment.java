@@ -174,7 +174,8 @@ public class HomeFragment extends Fragment {
                 xInp.setLayoutParams(params);
                 xInp.setHint("Longitude");
                 xInp.setInputType
-                        (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                        (InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+                                | InputType.TYPE_NUMBER_FLAG_SIGNED);
                 xInp.setGravity(Gravity.CENTER);
                 xInp.setId(View.generateViewId());
                 cityLayout.addView(xInp);
@@ -182,7 +183,8 @@ public class HomeFragment extends Fragment {
                 yInp.setBackgroundResource(R.drawable.edit_text_bg);
                 yInp.setLayoutParams(params);
                 yInp.setHint("Latitude");
-                yInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+                yInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+                        | InputType.TYPE_NUMBER_FLAG_SIGNED);
                 yInp.setGravity(Gravity.CENTER);
                 yInp.setId(View.generateViewId());
                 cityLayout.addView(yInp);
@@ -252,7 +254,8 @@ public class HomeFragment extends Fragment {
                     300, ViewGroup.LayoutParams.WRAP_CONTENT);
             xInp.setLayoutParams(params);
             xInp.setHint("Longitude");
-            xInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            xInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+                    | InputType.TYPE_NUMBER_FLAG_SIGNED);
             xInp.setGravity(Gravity.CENTER);
             xInp.setId(View.generateViewId());
             cityLayout.addView(xInp);
@@ -260,7 +263,8 @@ public class HomeFragment extends Fragment {
             yInp.setBackgroundResource(R.drawable.edit_text_bg);
             yInp.setLayoutParams(params);
             yInp.setHint("Latitude");
-            yInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            yInp.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL
+                    | InputType.TYPE_NUMBER_FLAG_SIGNED);
             yInp.setGravity(Gravity.CENTER);
             yInp.setId(View.generateViewId());
             cityLayout.addView(yInp);
